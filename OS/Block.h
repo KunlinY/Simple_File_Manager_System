@@ -1,10 +1,7 @@
 #pragma once
 
 #include "Header.h"
-#include "Super.h"
 
-static fstream disk;
-static bool blocks[1024];
 
 class Block
 {
@@ -25,5 +22,6 @@ private:
 	long long createTime;
 	long long updateTime;
 	static bool overflow;
+	static bool blocks[1024];
+	static fstream disk;
 };
-bool Block::overflow = false;

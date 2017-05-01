@@ -1,6 +1,9 @@
 #include "stdafx.h"
 #include "Block.h"
 
+bool Block::overflow = false;
+bool Block::blocks[1024];
+fstream Block::disk("disk");
 
 Block::Block() : 
 	next(nullptr)
@@ -19,18 +22,12 @@ Block::Block() :
 	if (i == 1024) {
 		overflow = true;
 	}
-
-	if (!disk.is_open()) {
-		disk.open("disk");
-	}
 }
-
 
 Block::~Block()
 {
 	blocks[id] = false;
 }
-
 
 void Block::showInfo()
 {
