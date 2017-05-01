@@ -7,13 +7,16 @@ class Block
 public:
 	Block();
 	~Block();
+
+	void showInfo();
+	string content();
+	bool write(string content);
+	int size();
+
 private:
-//	map<string, Root*> users;
 	int id;
 	bool used;
 	int createTime;
 	int updateTime;
-public:
-	void showInfo();
 };
 

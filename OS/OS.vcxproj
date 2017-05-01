@@ -139,7 +139,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Block.h" />
-    <ClInclude Include="File.h" />
     <ClInclude Include="Header.h" />
     <ClInclude Include="Root.h" />
     <ClInclude Include="stdafx.h" />
@@ -148,7 +147,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Block.cpp" />
-    <ClCompile Include="File.cpp" />
     <ClCompile Include="OS.cpp" />
     <ClCompile Include="Root.cpp" />
     <ClCompile Include="stdafx.cpp">

@@ -1,13 +1,15 @@
 #pragma once
 
 #include "Header.h"
+#include "Block.h"
 
 class Root
 {
 public:
-	Root();
-	~Root();
 	Root(string name);
+	Root(Root* parent, string name);
+	Root(Root* parent, string name, bool flag);
+	~Root();
 
 	void run();
 
@@ -16,16 +18,25 @@ public:
 	bool deleteFile(string name);
 
 	Root* visitFile(string name);
+	Root* visitRoot();
 	Root* visitParent();
 	bool copy(Root* src, Root* dest);
 
 	void showChilds();
 	void showInfo();
 
+	int getFolderNum();
+	int getFileNum();
+	int getSize();
+
+	string read();
+	bool write(string content);
+
 private:
 	string name;
 	map<string, Root*> childs;
 	Root* parent;
 	Root* root;
+	Block* block;
 };
 

@@ -18,3 +18,18 @@ Block::~Block()
 void Block::showInfo()
 {
 }
+
+string Block::content()
+{
+	return string();
+}
+
+bool Block::write(string content)
+{
+	return false;
+}
+
+int Block::size()
+{
+	return 0;
+}
