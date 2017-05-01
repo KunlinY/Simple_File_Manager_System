@@ -54,6 +54,12 @@ Root* Root::createRoot(string name)
 
 Root * Root::createFile(string name)
 {
+	if (childs.find(name) != childs.end()) {
+		return childs[name];
+	}
+	else {
+		cout << "File " << name << " doesn't' exist" << endl;
+	}
 	return nullptr;
 }
 
