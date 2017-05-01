@@ -4,7 +4,7 @@
 #include "Super.h"
 
 static fstream disk;
-static int blocks[1024];
+static bool blocks[1024];
 
 class Block
 {
@@ -16,6 +16,7 @@ public:
 	string content();
 	bool write(string content);
 	int size();
+	void deleteBlock(Block* block);
 
 private:
 	int id;
@@ -23,4 +24,6 @@ private:
 	bool used;
 	long long createTime;
 	long long updateTime;
+	static bool overflow;
 };
+bool Block::overflow = false;
