@@ -9,20 +9,21 @@ class Super
 {
 public:
 	Super();
+	Super(bool flag);
 	~Super();
 
-public:
-	const int FILE_SIZE = 1024 * 1024;
-	const int BLOCK_SIZE = 1024;
-	const int NAME_SIZE = 8;
-	const int NODE_SIZE = 64;
-private:
-	map<string, Root*> users;
-public:
+	const static int FILE_SIZE = 1024 * 1024;
+	const static int BLOCK_SIZE = 1024;
+	const static int NAME_SIZE = 8;
+	const static int NODE_SIZE = 64;
+
 	void boot();
 	bool createUser(string name);
 	bool deleteUser(string name);
 	bool logUser(string name);
 	void showInfo();
+
+private:
+	map<string, Root*> users;
 };
 

@@ -1,6 +1,10 @@
 #pragma once
 
 #include "Header.h"
+#include "Super.h"
+
+static fstream disk;
+static int blocks[1024];
 
 class Block
 {
@@ -15,8 +19,8 @@ public:
 
 private:
 	int id;
+	Block* next;
 	bool used;
-	int createTime;
-	int updateTime;
+	long long createTime;
+	long long updateTime;
 };
-

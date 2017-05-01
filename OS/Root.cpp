@@ -118,6 +118,7 @@ Root * Root::visitParent()
 bool Root::copy(Root * src, Root * dest)
 {
 	if (!(src && dest)) return false;
+	return true;
 }
 
 

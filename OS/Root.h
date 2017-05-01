@@ -35,8 +35,8 @@ public:
 private:
 	string name;
 	map<string, Root*> childs;
+	Block* block;
 	Root* parent;
 	Root* root;
-	Block* block;
 };
 

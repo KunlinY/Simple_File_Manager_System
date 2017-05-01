@@ -2,11 +2,22 @@
 #include "Block.h"
 
 
-Block::Block()
+Block::Block() : 
+	next(nullptr)
 {
-	id = 0;
-	createTime = 0;
-	updateTime = 0;
+	time(&createTime);
+	time(&updateTime);
+
+	for (int i = 0; i < 1024; i++) {
+		if (!blocks[i]) {
+			id = i;
+			break;
+		}
+	}
+
+	if (!disk.is_open()) {
+		disk.open("disk");
+	}
 }
 
 
@@ -31,5 +42,8 @@ bool Block::write(string content)
 
 int Block::size()
 {
-	return 0;
+	if (next != nullptr) {
+		return next->size() + 1;
+	}
+	return 1;
 }

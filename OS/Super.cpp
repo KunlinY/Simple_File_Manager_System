@@ -4,6 +4,10 @@
 
 Super::Super()
 {
+}
+
+Super::Super(bool flag)
+{
 	boot();
 }
 
