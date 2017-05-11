@@ -54,6 +54,65 @@ Root::Root(Root * parent, string name, bool flag) :
 //	以上都是while循环 操作失败要有对应失败信息
 void Root::run()
 {
+	string action;
+	while (1)
+	{
+		cin >> action;
+		if (action == "ls")
+			showChilds();
+		else if (action == "cd")
+		{
+			string route;
+			cin >> route;
+			if (route[0] == '/')
+				findExcatRoute(route);
+			else
+				findRelativeRoute(route);
+		}
+		else if (action == "vi")
+		{
+			//还无法判断文件与目录
+		}
+		else if (action == "cp")
+		{
+			string src, dest;
+			cin >> src >> dest;
+		}
+		else if (action == "rm")
+		{
+			string file;
+			cin >> file;
+			if (deleteFile(file))
+				cout << "delete complete" << endl;
+			else
+				cout << "delete error" << endl;
+		}
+		else if (action == "mkdir")
+		{
+			string dir;
+			cin >> dir;
+			if (createRoot(dir) == nullptr)
+				cout << "directory construction error" << endl;
+			else
+				cout << "construction complete" << endl;
+		}
+		else if (action == "touch")
+		{
+			string file;
+			cin >> file;
+			if (createFile(file) == nullptr)
+				cout << "file construction error" << endl;
+			else
+				cout << "construction conplete" << endl;
+		}
+		else if (action == "quit")
+		{
+			cout << "go back to super" << endl;
+			return;
+		}
+		else
+			cout << "instructions error, please try another time" << endl;
+	}
 }
 
 Root* Root::createRoot(string name)
@@ -194,3 +253,10 @@ bool Root::write(string content)
 	if (block == nullptr) return false;
 	return block->write(content);
 }
+
+void Root::findExcatRoute(string route)
+{
+
+}
+
+
