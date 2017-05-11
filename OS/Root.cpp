@@ -111,7 +111,7 @@ void Root::run()
 			return;
 		}
 		else
-			cout << "instructions error, please try another time" << endl;
+			cout << "instructions error, please try another time." << endl;
 	}
 }
 
