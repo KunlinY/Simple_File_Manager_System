@@ -62,12 +62,13 @@ void Root::run()
 			showChilds();
 		else if (action == "cd")
 		{
+			Root * temp;
 			string route;
 			cin >> route;
 			if (route[0] == '/')
-				findExcatRoute(route);
+				temp = findExcatRoute(route);
 			else
-				findRelativeRoute(route);
+				temp = findRelativeRoute(route);
 		}
 		else if (action == "vi")
 		{
@@ -254,9 +255,49 @@ bool Root::write(string content)
 	return block->write(content);
 }
 
-void Root::findExcatRoute(string route)
+Root * Root::DownToFile(string route)
 {
+	Root * temp;
+	int pos = route.find('/');
+	if (pos == -1)
+	{
+		temp = visitFile(route);
+		route = "";
+	}
+	else
+	{
+		temp = visitFile(route.substr(0, pos + 1));
+		route = route.substr(pos + 1, route.length() - pos - 1);
+	}
+	return temp;
+}
 
+Root * Root::findExcatRoute(string route)
+{
+	Root * temp;
+
+	temp = root;
+	route = route.substr(1, route.length() - 1);
+	while (!route.empty())
+		temp = DownToFile(route);
+	return temp;
+}
+
+Root * Root::findRelativeRoute(string route)
+{
+	Root * temp;
+	while (!route.empty())
+	{
+		if (route.substr(0, 3) == "../")
+		{
+			temp = parent;
+			route = route.substr(3, route.length() - 3);
+		}
+		else
+			temp = DownToFile(route);
+		
+	}
+	return temp;
 }
 
 
