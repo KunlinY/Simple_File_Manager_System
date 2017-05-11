@@ -32,8 +32,9 @@ public:
 	string read();
 	bool write(string content);
 
-	void findExcatRoute(string route);
-	void findRelativeRoute(string route);
+	Root * DownToFile(string route);
+	Root * findExcatRoute(string route);
+	Root * findRelativeRoute(string route);
 private:
 	string name;
 	map<string, Root*> childs;
