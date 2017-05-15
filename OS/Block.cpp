@@ -3,7 +3,8 @@
 
 bool Block::overflow = false;
 bool Block::blocks[1024];
-fstream Block::disk("disk");
+ifstream Block::in("disk");
+ofstream Block::out("disk", ios::app);
 
 Block::Block() : 
 	next(nullptr)
@@ -15,6 +16,7 @@ Block::Block() :
 	for (i = 0; i < 1024; i++) {
 		if (!blocks[i]) {
 			id = i;
+			blocks[i] = true;
 			break;
 		}
 	}
@@ -43,8 +45,16 @@ string Block::content()
 	char temp[1025];
 
 	while (pos != nullptr) {
-		disk.seekg(1024 * pos->id);
-		disk.read(temp, 1024);
+		in.seekg(1024 * pos->id, ios::beg);
+
+		streampos item = in.tellg();
+		cout << item << ends;
+
+		in.read(temp, 1024);
+
+		item = in.tellg();
+		cout << item << ends;
+
 		temp[1024] = 0;
 		content += temp;
 		pos = pos->next;
@@ -56,12 +66,26 @@ string Block::content()
 bool Block::write(string content)
 {
 	Block* pos = this;
+	content += (char)0;
 
 	while (content.size() > 0) {
 		time(&pos->updateTime);
-		disk.seekp(1024 * pos->id);
-		disk.write(content.c_str(), 1024);
-		content = content.substr(1025);
+		out.seekp(1024 * pos->id, ios::beg);
+
+		streampos item = out.tellp();
+		cout << item << ends;
+
+		out.write(content.c_str(), 1024);
+
+		item = out.tellp();
+		cout << item << ends;
+
+		try {
+			content = content.substr(1025);
+		}
+		catch (out_of_range) {
+			break;
+		}		
 
 		if (pos->next == nullptr) {
 			pos->next = new Block();
