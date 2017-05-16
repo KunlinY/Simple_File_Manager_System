@@ -26,6 +26,7 @@ void test() {
 
 	in.close();
 	out.close();
+	cout << "END" << endl;
 }
 
 int main() 
