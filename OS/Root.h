@@ -31,10 +31,12 @@ public:
 
 	string read();
 	bool write(string content);
+	bool isFile();
 
 	Root * DownToFile(string route);
 	Root * findExcatRoute(string route);
 	Root * findRelativeRoute(string route);
+
 private:
 	string name;
 	map<string, Root*> childs;

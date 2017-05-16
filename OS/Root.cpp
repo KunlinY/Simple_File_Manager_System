@@ -255,6 +255,11 @@ bool Root::write(string content)
 	return block->write(content);
 }
 
+bool Root::isFile()
+{
+	return block;
+}
+
 Root * Root::DownToFile(string route)
 {
 	Root * temp;
