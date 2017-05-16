@@ -23,6 +23,5 @@ private:
 	long long updateTime;
 	static bool overflow;
 	static bool blocks[1024];
-	static ifstream in;
-	static ofstream out;
+	static fstream disk;
 };

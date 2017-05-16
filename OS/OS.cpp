@@ -8,32 +8,30 @@
 
 void test() {
 	string item = "1234567890qwertyuiopasdfghjklzxcvbnmzxcvbnm";
-	ifstream in("disk");
-	ofstream out("disk", ios::app);
+	fstream file("disk");
 	char temp[1025];
 
-	out.seekp(1024 * 5, ios::beg);
-	cout << out.tellp() << ends;
-	out.write(item.c_str(), 1024);
-	cout << out.tellp() << endl;
+	file.seekp(1024 * 5, ios::beg);
+	cout << file.tellp() << ends;
+	file.write(item.c_str(), 1024);
+	cout << file.tellp() << endl;
 
-	in.seekg(1024 * 5, ios::beg);
-	cout << in.tellg() << ends;
-	in.read(temp, 1024);
-	cout << in.tellg() << endl;
+	file.seekg(1024 * 5, ios::beg);
+	cout << file.tellg() << ends;
+	file.read(temp, 1024);
+	cout << file.tellg() << endl;
 	temp[1024] = 0;
 	cout << temp << endl;
 
-	in.close();
-	out.close();
+	file.close();
 }
 
 int main() 
 {
-	test();
+	//test();
 	string item = "1234567890qwertyuiopasdfghjklzxcvbnmzxcvbnm";
 	Block block[11];
-	for (int i = 0; i < 0; i--) {
+	for (int i = 0; i < 10; i++) {
 		cout << i << endl;
 		cout << block[i].content() << endl;
 		block[i].write(item.substr(i, 3 * (i + 1)));
