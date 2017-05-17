@@ -24,6 +24,7 @@ public:
 
 	void showChilds();
 	void showInfo();
+	string getRecord();
 
 	int getFolderNum();
 	int getFileNum();
@@ -44,5 +45,6 @@ private:
 	Block* block;
 	Root* parent;
 	Root* root;
+	long long createTime;
 };
 

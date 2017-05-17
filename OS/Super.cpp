@@ -8,11 +8,23 @@ Super::Super()
 
 Super::Super(bool flag)
 {
+	Block block[3];
 	boot();
 }
 
 Super::~Super()
 {
+	ostringstream user, record;
+
+	map<string, Root*>::iterator it;
+	it = users.begin();
+	while (it != users.end())
+	{
+		user << it->first << " " << endl;
+		it++;
+	}
+
+
 }
 
 //	TODO
@@ -118,7 +130,7 @@ void Super::showInfo()
 	it = users.begin();
 	while (it != users.end())
 	{
-		cout << it->first << "\t"<< it->second->getSize() << endl;
+		cout << it->first << it->second->getSize() << endl;
 		it++;
 	}
 }

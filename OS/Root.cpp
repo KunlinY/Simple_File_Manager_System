@@ -6,8 +6,9 @@ Root::Root(string name) :
 	name(name),
 	parent(this),
 	root(this),
-	block(nullptr)
+	block(nullptr)	
 {
+	time(&createTime);
 }
 
 Root::~Root()
@@ -23,6 +24,7 @@ Root::Root(Root* parent, string name) :
 	root(parent->root),
 	block(nullptr)
 {
+	time(&createTime);
 }
 
 Root::Root(Root * parent, string name, bool flag) :
@@ -31,6 +33,7 @@ Root::Root(Root * parent, string name, bool flag) :
 	root(parent->root),
 	block(new Block())
 {
+	time(&createTime);
 }
 
 //	TODO
@@ -58,6 +61,9 @@ void Root::run()
 	string action;
 	while (1)
 	{
+		// TODO
+		// 每个操作的地址访问都要可以接受绝对地址和间接地址
+		// 每次操作最好可以输出当前路径，像Linux一样
 		cin >> action;
 		if (action == "ls")
 			temp->showChilds();
@@ -66,6 +72,8 @@ void Root::run()
 			Root * test;
 			string route;
 			cin >> route;
+			// TODO
+			// 这个循环判断最好不要写死在这 另外写一个函数 方便其他功能调用
 
 			test = temp->findRoute(route);
 
@@ -103,12 +111,8 @@ void Root::run()
 							break;
 						content = content + add + "\n";
 					}
-					if (working->write(content))
-						cout << "writing complete" << endl;
-					else
-						cout << "writing error" << endl;
-
-					cout << "new version：\n" << content << endl;
+					working->write(content);
+					cout << "new version\n" << content << endl;
 				}
 				else if (instruction == "2")
 				{
@@ -116,16 +120,10 @@ void Root::run()
 					cout << "are you sure? all content will be cleared![y/n]" << endl;
 					cin >> flag;
 					if (flag == 'y')
-						if (working->write(""))
-							cout << "clear complete" << endl;
-						else
-							cout << "clear error" << endl;
+						working->write("");
 				}
 				else if (instruction == "3")
-				{
-					cout << "quit the 'vi' system" << endl;
 					break;
-				}
 				else
 				{
 					cout << "invalid input! try again" << endl;
@@ -262,6 +260,20 @@ void Root::showInfo()
 		<< folderNum << " folders "
 		<< fileNum << " files and total size is "
 		<< size << "." << endl;
+}
+
+string Root::getRecord()
+{
+	string temp;
+
+	map<string, Root*>::iterator it;
+	it = childs.begin();
+	while (it != childs.end())
+	{
+		it++;
+	}
+
+	return string();
 }
 
 int Root::getFolderNum()
