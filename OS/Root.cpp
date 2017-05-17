@@ -82,7 +82,7 @@ void Root::run()
 			Root * working;
 			string route, instruction, content, add;
 			cin >> route;
-			working = temp->findRoute(route);
+			working = temp->findRoute(route); 
 			if (working == nullptr && !working->isFile())
 				continue;
 
@@ -94,8 +94,8 @@ void Root::run()
 				cout << "******************************\n"
 					<< "write: 1 + 'enter'\n"
 					<< "clear: 2 + 'enter'\n"
-					<< "quit: 3 + 'enter' + ':q:\n"
-					<< "quit writing: 'enter' + :q\n"
+					<< "quit: 3 + 'enter'\n"
+					<< "quit writing: 'enter' + ':q'\n"
 					<< "******************************\n";
 
 				cin >> instruction;
@@ -109,6 +109,7 @@ void Root::run()
 						content = content + add + "\n";
 					}
 					temp->write(content);
+					cout << "new version\n" << content << endl;
 				}
 				else if (instruction == "2")
 				{

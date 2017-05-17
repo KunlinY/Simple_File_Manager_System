@@ -35,7 +35,7 @@ void Super::boot()
 			<< "create user: create + username + 'enter'\n"
 			<< "delete user: delete + username + 'enter'\n"
 			<< "log user: log + username + 'enter' + ':q:\n"
-			<< "remark: if you create a new user, you need to relog"
+			<< "remark: if you create a new user, you need to relog\n"
 			<< "******************************\n";
 		string action, name;
 		cin >> action >> name;
