@@ -108,7 +108,7 @@ void Root::run()
 							break;
 						content = content + add + "\n";
 					}
-					temp->write(content);
+					working->write(content);
 					cout << "new version\n" << content << endl;
 				}
 				else if (instruction == "2")
@@ -117,7 +117,7 @@ void Root::run()
 					cout << "are you sure? all content will be cleared![y/n]" << endl;
 					cin >> flag;
 					if (flag == 'y')
-						temp->write("");
+						working->write("");
 				}
 				else if (instruction == "3")
 					break;

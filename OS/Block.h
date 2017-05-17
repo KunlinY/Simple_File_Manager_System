@@ -7,7 +7,13 @@ class Block
 {
 public:
 	Block();
+	Block(bool);
 	~Block();
+
+	string readUser();
+	string readNode();
+	string readFile();
+	void save(string users, string records);
 
 	void showInfo();
 	string content();
