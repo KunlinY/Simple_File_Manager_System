@@ -58,9 +58,6 @@ void Root::run()
 	string action;
 	while (1)
 	{
-		// TODO
-		// 每个操作的地址访问都要可以接受绝对地址和间接地址
-		// 每次操作最好可以输出当前路径，像Linux一样
 		cin >> action;
 		if (action == "ls")
 			temp->showChilds();
@@ -69,8 +66,6 @@ void Root::run()
 			Root * test;
 			string route;
 			cin >> route;
-			// TODO
-			// 这个循环判断最好不要写死在这 另外写一个函数 方便其他功能调用
 
 			test = temp->findRoute(route);
 
@@ -108,8 +103,12 @@ void Root::run()
 							break;
 						content = content + add + "\n";
 					}
-					working->write(content);
-					cout << "new version\n" << content << endl;
+					if (working->write(content))
+						cout << "writing complete" << endl;
+					else
+						cout << "writing error" << endl;
+
+					cout << "new version：\n" << content << endl;
 				}
 				else if (instruction == "2")
 				{
@@ -117,10 +116,16 @@ void Root::run()
 					cout << "are you sure? all content will be cleared![y/n]" << endl;
 					cin >> flag;
 					if (flag == 'y')
-						working->write("");
+						if (working->write(""))
+							cout << "clear complete" << endl;
+						else
+							cout << "clear error" << endl;
 				}
 				else if (instruction == "3")
+				{
+					cout << "quit the 'vi' system" << endl;
 					break;
+				}
 				else
 				{
 					cout << "invalid input! try again" << endl;

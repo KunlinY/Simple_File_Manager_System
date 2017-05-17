@@ -118,7 +118,7 @@ void Super::showInfo()
 	it = users.begin();
 	while (it != users.end())
 	{
-		cout << it->first << it->second->getSize() << endl;
+		cout << it->first << "\t"<< it->second->getSize() << endl;
 		it++;
 	}
 }
