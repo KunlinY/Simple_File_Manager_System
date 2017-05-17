@@ -71,21 +71,19 @@ void Root::run()
 			cin >> route;
 			// TODO
 			// 这个循环判断最好不要写死在这 另外写一个函数 方便其他功能调用
-			if (route[0] == '/')
-				test = temp->findExcatRoute(route);
-			else
-				test = temp->findRelativeRoute(route);
 
-			if (test != nullptr)
+			test = temp->findRoute(route);
+
+			if (test != nullptr && !test->isFile())
 				temp = test;
 		}
 		else if (action == "vi")
 		{
 			Root * working;
-			string filename, instruction, content, add;
-			cin >> filename;
-			working = temp->visitFile(filename);
-			if (working == nullptr)
+			string route, instruction, content, add;
+			cin >> route;
+			working = temp->findRoute(route);
+			if (working == nullptr && !working->isFile())
 				continue;
 
 			content = working->read();
@@ -313,6 +311,16 @@ bool Root::isFile()
 	return block;
 }
 
+Root * Root::findRoute(string route)
+{
+	Root * test;
+	if (route[0] == '/')
+		test = findExcatRoute(route);
+	else
+		test = findRelativeRoute(route);
+	return test;
+}
+
 Root * Root::DownToFile(string &route)
 {
 	Root * temp;
@@ -339,7 +347,7 @@ Root * Root::findExcatRoute(string route)
 	while (!route.empty())
 	{
 		temp = DownToFile(route);
-		if (temp->isFile() || temp == nullptr)
+		if (temp == nullptr)
 		{
 			cout << "invalid input" << endl;
 			return nullptr;
@@ -355,15 +363,18 @@ Root * Root::findRelativeRoute(string route)
 	{
 		// TODO
 		// cd .. ??
-		if (route.substr(0, 3) == "../")
+		if (route.substr(0, 2) == "..")
 		{
 			temp = parent;
-			route = route.substr(3, route.length() - 3);
+			route = route.substr(2, route.length() - 2);
 		}
 		else
 			temp = DownToFile(route);
 
-		if (temp == nullptr || temp->isFile())
+		if (route.substr(0, 1) == "/")
+			route = route.substr(1, route.length() - 1);
+
+		if (temp == nullptr)
 		{
 			cout << "invalid input" << endl;
 			return nullptr;

@@ -31,6 +31,12 @@ void Super::boot()
 	// 输出命令提示信息
 	while (1)
 	{
+		cout << "******************************\n"
+			<< "create user: create + username + 'enter'\n"
+			<< "delete user: delete + username + 'enter'\n"
+			<< "log user: log + username + 'enter' + ':q:\n"
+			<< "remark: if you create a new user, you need to relog"
+			<< "******************************\n";
 		string action, name;
 		cin >> action >> name;
 		if (action == "create")
