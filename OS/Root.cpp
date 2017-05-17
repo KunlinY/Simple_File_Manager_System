@@ -54,25 +54,74 @@ Root::Root(Root * parent, string name, bool flag) :
 //	以上都是while循环 操作失败要有对应失败信息
 void Root::run()
 {
+	Root * temp = this;
 	string action;
 	while (1)
 	{
 		cin >> action;
 		if (action == "ls")
-			showChilds();
+			temp->showChilds();
 		else if (action == "cd")
 		{
-			Root * temp;
+			Root * test;
 			string route;
 			cin >> route;
 			if (route[0] == '/')
-				temp = findExcatRoute(route);
+				test = temp->findExcatRoute(route);
 			else
-				temp = findRelativeRoute(route);
+				test = temp->findRelativeRoute(route);
+
+			if (test != nullptr)
+				temp = test;
 		}
 		else if (action == "vi")
 		{
-			//还无法判断文件与目录
+			Root * working;
+			string filename, instruction, content, add;
+			cin >> filename;
+			working = temp->visitFile(filename);
+			if (working == nullptr)
+				continue;
+
+			content = working->read();
+			cout << content << endl;
+
+			while(1)
+			{
+				cout << "******************************\n"
+					<< "write: 1 + 'enter'\n"
+					<< "clear: 2 + 'enter'\n"
+					<< "quit: 3 + 'enter' + ':q:\n"
+					<< "quit writing: 'enter' + :q\n"
+					<< "******************************\n";
+
+				cin >> instruction;
+				if (instruction == "1")
+				{
+					while (1)
+					{
+						cin >> add;
+						if (add == ":q")
+							break;
+						content = content + add + "\n";
+					}
+					temp->write(content);
+				}
+				else if (instruction == "2")
+				{
+					char flag;
+					cout << "are you sure? all content will be cleared![y/n]" << endl;
+					cin >> flag;
+					if (flag == 'y')
+						temp->write("");
+				}
+				else if (instruction == "3")
+					break;
+				else
+				{
+					cout << "invalid input! try again" << endl;
+				}
+			}		
 		}
 		else if (action == "cp")
 		{
@@ -83,7 +132,7 @@ void Root::run()
 		{
 			string file;
 			cin >> file;
-			if (deleteFile(file))
+			if (temp->deleteFile(file))
 				cout << "delete complete" << endl;
 			else
 				cout << "delete error" << endl;
@@ -92,7 +141,7 @@ void Root::run()
 		{
 			string dir;
 			cin >> dir;
-			if (createRoot(dir) == nullptr)
+			if (temp->createRoot(dir) == nullptr)
 				cout << "directory construction error" << endl;
 			else
 				cout << "construction complete" << endl;
@@ -101,7 +150,7 @@ void Root::run()
 		{
 			string file;
 			cin >> file;
-			if (createFile(file) == nullptr)
+			if (temp->createFile(file) == nullptr)
 				cout << "file construction error" << endl;
 			else
 				cout << "construction conplete" << endl;
@@ -123,7 +172,7 @@ Root* Root::createRoot(string name)
 		return childs[name];
 	}
 	else {
-		//cout << "File " << name << " already exists" << endl;
+		cout << "File " << name << " already exists" << endl;
 		return nullptr;
 	}
 }
@@ -135,7 +184,7 @@ Root* Root::createFile(string name)
 		return childs[name];
 	}
 	else {
-		//cout << "File " << name << " already exist" << endl;
+		cout << "File " << name << " already exist" << endl;
 		return nullptr;
 	}
 }
@@ -148,7 +197,7 @@ bool Root::deleteFile(string name)
 		return true;
 	}
 	else {
-		//cout << "File " << name << " not found" << endl;
+		cout << "File " << name << " not found" << endl;
 		return false;
 	}
 }
@@ -159,7 +208,7 @@ Root* Root::visitFile(string name)
 		return childs[name];
 	}
 	else {
-		//cout << "File " << name << " not found" << endl;
+		cout << "File " << name << " not found" << endl;
 		return nullptr;
 	}
 }
@@ -260,7 +309,7 @@ bool Root::isFile()
 	return block;
 }
 
-Root * Root::DownToFile(string route)
+Root * Root::DownToFile(string &route)
 {
 	Root * temp;
 	int pos = route.find('/');
@@ -284,7 +333,14 @@ Root * Root::findExcatRoute(string route)
 	temp = root;
 	route = route.substr(1, route.length() - 1);
 	while (!route.empty())
+	{
 		temp = DownToFile(route);
+		if (temp->isFile() || temp == nullptr)
+		{
+			cout << "invalid input" << endl;
+			return nullptr;
+		}
+	}
 	return temp;
 }
 
@@ -300,6 +356,12 @@ Root * Root::findRelativeRoute(string route)
 		}
 		else
 			temp = DownToFile(route);
+
+		if (temp->isFile() || temp == nullptr)
+		{
+			cout << "invalid input" << endl;
+			return nullptr;
+		}
 		
 	}
 	return temp;

@@ -33,7 +33,7 @@ public:
 	bool write(string content);
 	bool isFile();
 
-	Root * DownToFile(string route);
+	Root * DownToFile(string &route);
 	Root * findExcatRoute(string route);
 	Root * findRelativeRoute(string route);
 
