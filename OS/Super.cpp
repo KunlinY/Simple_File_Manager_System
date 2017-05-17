@@ -35,14 +35,14 @@ void Super::boot()
 		if (action == "create")
 		{
 			if (createUser(name))
-				cout << "create " << name << "success" << endl;
+				cout << "create " << name << " success" << endl;
 			else
 				cout << "create error" << endl;
 		}
 		else if (action == "delete")
 		{
 			if (deleteUser(name))
-				cout << "delete " << name << "success" << endl;
+				cout << "delete " << name << " success" << endl;
 			else
 				cout << "delete error" << endl;
 		}
@@ -50,7 +50,8 @@ void Super::boot()
 		{
 			if (logUser(name))
 			{
-				cout << "log " << name << "success" << endl;
+				cout << "log " << name << " success" << endl;
+				users[name]->run();
 				return;
 			}
 			else
@@ -91,7 +92,6 @@ bool Super::deleteUser(string name)
 bool Super::logUser(string name)
 {
 	if (users.find(name) != users.end()) {
-		users[name]->run();
 		return true;
 	}
 	else {
