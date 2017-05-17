@@ -100,14 +100,14 @@ void Root::run()
 			Root * working;
 			string route, instruction, content, add;
 			cin >> route;
-			working = temp->findRoute(route); 
+			working = temp->findRoute(route);
 			if (working == nullptr && !working->isFile())
 				continue;
 
 			content = working->read();
 			cout << content << endl;
-			 
-			while(1)
+
+			while (1)
 			{
 				cout << "******************************\n"
 					<< "write: 1 + 'enter'\n"
@@ -126,8 +126,12 @@ void Root::run()
 							break;
 						content = content + add + "\n";
 					}
-					working->write(content);
-					cout << "new version\n" << content << endl;
+					if (working->write(content))
+						cout << "writing complete" << endl;
+					else
+						cout << "writing error" << endl;
+
+					cout << "new version£º\n" << content << endl;
 				}
 				else if (instruction == "2")
 				{
@@ -135,15 +139,21 @@ void Root::run()
 					cout << "are you sure? all content will be cleared![y/n]" << endl;
 					cin >> flag;
 					if (flag == 'y')
-						working->write("");
+						if (working->write(""))
+							cout << "clear complete" << endl;
+						else
+							cout << "clear error" << endl;
 				}
 				else if (instruction == "3")
+				{
+					cout << "quit the 'vi' system" << endl;
 					break;
+				}
 				else
 				{
 					cout << "invalid input! try again" << endl;
 				}
-			}		
+			}
 		}
 		else if (action == "cp")
 		{
