@@ -85,7 +85,7 @@ void Root::run()
 
 			content = working->read();
 			cout << content << endl;
-
+			 
 			while(1)
 			{
 				cout << "******************************\n"
