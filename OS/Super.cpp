@@ -9,22 +9,64 @@ Super::Super()
 Super::Super(bool flag)
 {
 	Block block[3];
+	block[1].load();
+	istringstream user(block[0].content()), record(block[2].content());
+
+	string temp;
+	while (user >> temp) {
+		createUser(temp);
+	}
+
+	string name, parent;
+	long long time;
+	int next;
+	Root* root = nullptr;
+	while (record >> name >> parent >> time >> next) {
+		if (flag) {
+			flag = false;
+			root = users[parent];
+			continue;
+		}
+		if (root->getName() == parent) {
+			root = new Root(root, name, time, next);
+			continue;
+		}
+
+		while (root->getName() != parent) {
+			if (root->visitParent() == root) {
+				flag = true;
+				break;
+			}
+			root = root->visitParent();
+		}
+
+		if (!flag) 
+			root = new Root(root, name, time, next);
+	}
+
+
 	boot();
 }
 
 Super::~Super()
 {
-	ostringstream user, record;
+	string user, record;
 
 	map<string, Root*>::iterator it;
 	it = users.begin();
 	while (it != users.end())
 	{
-		user << it->first << " " << endl;
+		user += it->first + " ";
 		it++;
 	}
 
+	it = users.begin();
+	while (it != users.end()) {
+		record += it->second->getRecord();
+		it++;
+	}
 
+	Block::save(user, record);
 }
 
 //	TODO

@@ -36,6 +36,21 @@ Root::Root(Root * parent, string name, bool flag) :
 	time(&createTime);
 }
 
+Root::Root(Root * parent, string name, long long time, int id) :
+	name(name),
+	parent(parent),
+	createTime(time)
+{
+	if (id > 0) {
+		block = new Block(id, time);
+		//cout << block->content();
+	}
+	else
+		block = nullptr;
+
+	parent->childs[name] = this;
+}
+
 //	TODO
 //	接受命令行字符串
 //	最开始对象为this，之后操作对象为返回后的Root*
@@ -264,16 +279,20 @@ void Root::showInfo()
 
 string Root::getRecord()
 {
-	string temp;
+	char time[20];
+	itoa(createTime, time, 10);
+	string temp = name + " " + parent->name + " " + time + " "
+			+ (isFile() ? block->getId() : "-1") + " ";
 
 	map<string, Root*>::iterator it;
 	it = childs.begin();
 	while (it != childs.end())
 	{
+		temp += it->second->getRecord();
 		it++;
 	}
 
-	return string();
+	return temp;
 }
 
 int Root::getFolderNum()
@@ -310,6 +329,11 @@ int Root::getSize()
 		size += r.second->getSize();
 	}
 	return size;
+}
+
+string Root::getName()
+{
+	return name;
 }
 
 string Root::read()

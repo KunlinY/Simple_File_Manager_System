@@ -7,19 +7,18 @@ class Block
 {
 public:
 	Block();
-	Block(bool);
+	Block(int i, long long time);
 	~Block();
 
-	string readUser();
-	string readNode();
-	string readFile();
-	void save(string users, string records);
+	static void save(string users, string records);
+	void load();
 
 	void showInfo();
 	string content();
 	bool write(string content);
 	int size();
 	void deleteBlock(Block* block);
+	string getId();
 
 private:
 	int id;

@@ -25,9 +25,12 @@ Block::Block() :
 	}
 }
 
-Block::Block(bool)
+Block::Block(int i, long long time) :
+	next(nullptr)
 {
-
+	id = i;
+	createTime = time;
+	updateTime = time;
 }
 
 Block::~Block()
@@ -42,7 +45,7 @@ void Block::save(string users, string records)
 
 	string temp;
 	for (int i = 0; i < 1024; i++) {
-		if (blocks[id])
+		if (blocks[i])
 			temp += '1';
 		else temp += '0';
 	}
@@ -51,6 +54,15 @@ void Block::save(string users, string records)
 
 	disk.seekp(2048, ios::beg);
 	disk.write(records.c_str(), records.size());
+}
+
+void Block::load()
+{
+	string item = content();
+	for (int i = 0; i < item.size(); i++) {
+		if (item[i] == '1')
+			blocks[i] = true;
+	}
 }
 
 void Block::showInfo()
@@ -121,6 +133,13 @@ void Block::deleteBlock(Block* block) {
 
 	deleteBlock(block->next);
 	delete block;
+}
+
+string Block::getId()
+{
+	char temp[25];
+	itoa(id, temp, 10);
+	return temp;
 }
 
 int Block::size()

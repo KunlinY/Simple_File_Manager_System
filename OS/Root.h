@@ -9,6 +9,7 @@ public:
 	Root(string name);
 	Root(Root* parent, string name);
 	Root(Root* parent, string name, bool flag);
+	Root(Root* parent, string name, long long time, int id);
 	~Root();
 
 	void run();
@@ -29,6 +30,7 @@ public:
 	int getFolderNum();
 	int getFileNum();
 	int getSize();
+	string getName();
 
 	string read();
 	bool write(string content);
