@@ -11,7 +11,6 @@ Super::Super(bool flag)
 	boot();
 }
 
-
 Super::~Super()
 {
 }
@@ -28,6 +27,8 @@ Super::~Super()
 //	while循环
 void Super::boot()
 {
+	// TODO
+	// 输出命令提示信息
 	while (1)
 	{
 		string action, name;
@@ -111,7 +112,7 @@ void Super::showInfo()
 	it = users.begin();
 	while (it != users.end())
 	{
-		//cout << it->first << it->second->showSize() << endl;
+		cout << it->first << it->second->getSize() << endl;
 		it++;
 	}
 }

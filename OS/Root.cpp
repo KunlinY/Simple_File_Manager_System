@@ -58,6 +58,9 @@ void Root::run()
 	string action;
 	while (1)
 	{
+		// TODO
+		// 每个操作的地址访问都要可以接受绝对地址和间接地址
+		// 每次操作最好可以输出当前路径，像Linux一样
 		cin >> action;
 		if (action == "ls")
 			temp->showChilds();
@@ -66,6 +69,8 @@ void Root::run()
 			Root * test;
 			string route;
 			cin >> route;
+			// TODO
+			// 这个循环判断最好不要写死在这 另外写一个函数 方便其他功能调用
 			if (route[0] == '/')
 				test = temp->findExcatRoute(route);
 			else
@@ -230,7 +235,6 @@ bool Root::copy(Root * src, Root * dest)
 	return true;
 }
 
-
 void Root::showChilds()
 {
 	for (auto &r : childs) {
@@ -349,6 +353,8 @@ Root * Root::findRelativeRoute(string route)
 	Root * temp;
 	while (!route.empty())
 	{
+		// TODO
+		// cd .. ??
 		if (route.substr(0, 3) == "../")
 		{
 			temp = parent;
@@ -357,7 +363,7 @@ Root * Root::findRelativeRoute(string route)
 		else
 			temp = DownToFile(route);
 
-		if (temp->isFile() || temp == nullptr)
+		if (temp == nullptr || temp->isFile())
 		{
 			cout << "invalid input" << endl;
 			return nullptr;
