@@ -101,7 +101,7 @@ void Root::run()
 			string route, instruction, content, add;
 			cin >> route;
 			working = temp->findRoute(route);
-			if (working == nullptr && !working->isFile())
+			if (working == nullptr || !working->isFile())
 				continue;
 
 			content = working->read();
@@ -121,7 +121,7 @@ void Root::run()
 				{
 					while (1)
 					{
-						cin >> add;
+						getline(cin, add);
 						if (add == ":q")
 							break;
 						content = content + add + "\n";
@@ -360,7 +360,7 @@ bool Root::write(string content)
 
 bool Root::isFile()
 {
-	return block;
+	return !(block == nullptr);
 }
 
 Root * Root::findRoute(string route)

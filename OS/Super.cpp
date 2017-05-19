@@ -89,6 +89,8 @@ void Super::boot()
 			<< "create user: create + username + 'enter'\n"
 			<< "delete user: delete + username + 'enter'\n"
 			<< "log user: log + username + 'enter' + ':q:\n"
+			<< "shut down: shut down + 'enter'" << endl
+			<< "show info: show info + 'enter'" << endl
 			<< "remark: if you create a new user, you need to relog\n"
 			<< "******************************\n";
 		string action, name;
@@ -113,10 +115,17 @@ void Super::boot()
 			{
 				cout << "log " << name << " success" << endl;
 				users[name]->run();
-				return;
+				continue;
 			}
 			else
 				cout << "log error" << endl;
+		}
+		else if (action == "shut") {
+			break;
+		}
+		else if (action == "show") {
+			showInfo();
+			continue;
 		}
 		cout << "please log in" << endl;
 	}
@@ -172,7 +181,7 @@ void Super::showInfo()
 	it = users.begin();
 	while (it != users.end())
 	{
-		cout << it->first << it->second->getSize() << endl;
+		cout << it->first << "\t" << it->second->getSize() << " block" << endl;
 		it++;
 	}
 }
