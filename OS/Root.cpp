@@ -76,9 +76,6 @@ void Root::run()
 	string action;
 	while (1)
 	{
-		// TODO
-		// 每个操作的地址访问都要可以接受绝对地址和间接地址
-		// 每次操作最好可以输出当前路径，像Linux一样
 		cin >> action;
 		if (action == "ls")
 			temp->showChilds();
@@ -87,8 +84,6 @@ void Root::run()
 			Root * test;
 			string route;
 			cin >> route;
-			// TODO
-			// 这个循环判断最好不要写死在这 另外写一个函数 方便其他功能调用
 
 			test = temp->findRoute(route);
 
@@ -157,8 +152,20 @@ void Root::run()
 		}
 		else if (action == "cp")
 		{
-			string src, dest;
-			cin >> src >> dest;
+			Root * location, *dest;
+			string src, route;
+			cin >> src >> route;
+			location = temp->findRoute(route);
+			if (location == nullptr)
+				continue;
+			
+			
+			if ((dest = location->createFile(src.substr(src.find_last_of('\\') + 1))) == nullptr)
+				cout << "file construction error" << endl;
+			else
+				cout << "construction complete" << endl;
+			if (!copy(src, dest))
+				cout << "copy error" << endl;
 		}
 		else if (action == "rm")
 		{
@@ -185,10 +192,10 @@ void Root::run()
 			if (temp->createFile(file) == nullptr)
 				cout << "file construction error" << endl;
 			else
-				cout << "construction conplete" << endl;
+				cout << "construction complete" << endl;
 		}
 		else if (action == "stat") {
-
+			temp->showInfo();
 		}
 		else if (action == "quit")
 		{
@@ -384,6 +391,7 @@ Root * Root::findRoute(string route)
 Root * Root::DownToFile(string &route)
 {
 	Root * temp;
+	string file;
 	int pos = route.find('/');
 	if (pos == -1)
 	{
@@ -392,7 +400,8 @@ Root * Root::DownToFile(string &route)
 	}
 	else
 	{
-		temp = visitFile(route.substr(0, pos + 1));
+		file = route.substr(0, pos);
+		temp = visitFile(file);
 		route = route.substr(pos + 1, route.length() - pos - 1);
 	}
 	return temp;
@@ -406,7 +415,7 @@ Root * Root::findExcatRoute(string route)
 	route = route.substr(1, route.length() - 1);
 	while (!route.empty())
 	{
-		temp = DownToFile(route);
+		temp = temp->DownToFile(route);
 		if (temp == nullptr)
 		{
 			cout << "invalid input" << endl;
@@ -421,8 +430,6 @@ Root * Root::findRelativeRoute(string route)
 	Root * temp;
 	while (!route.empty())
 	{
-		// TODO
-		// cd .. ??
 		if (route.substr(0, 2) == "..")
 		{
 			temp = parent;
