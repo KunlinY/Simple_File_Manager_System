@@ -187,6 +187,9 @@ void Root::run()
 			else
 				cout << "construction conplete" << endl;
 		}
+		else if (action == "stat") {
+
+		}
 		else if (action == "quit")
 		{
 			cout << "go back to super" << endl;
@@ -255,11 +258,16 @@ Root * Root::visitParent()
 	return parent;
 }
 
-//	TODO
-bool Root::copy(Root * src, Root * dest)
+bool Root::copy(string src, Root * dest)
 {
-	if (!(src && dest)) return false;
-	return true;
+	ifstream in(src);
+	string temp;
+
+	while (!in.eof()) {
+		in >> temp;
+	}
+
+	return dest->write(temp);
 }
 
 void Root::showChilds()

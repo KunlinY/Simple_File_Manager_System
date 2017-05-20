@@ -21,7 +21,7 @@ public:
 	Root* visitFile(string name);
 	Root* visitRoot();
 	Root* visitParent();
-	bool copy(Root* src, Root* dest);
+	bool copy(string src, Root* dest);
 
 	void showChilds();
 	void showInfo();
