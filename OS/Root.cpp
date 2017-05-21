@@ -99,11 +99,12 @@ void Root::run()
 			if (working == nullptr || !working->isFile())
 				continue;
 
-			content = working->read();
-			cout << content << endl;
+			
 
 			while (1)
 			{
+				content = working->read();
+				cout << content << endl;
 				cout << "******************************\n"
 					<< "write: 1 + 'enter'\n"
 					<< "clear: 2 + 'enter'\n"

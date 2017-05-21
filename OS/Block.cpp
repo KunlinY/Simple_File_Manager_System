@@ -16,6 +16,7 @@ Block::Block() :
 		if (!blocks[i]) {
 			id = i;
 			blocks[i] = true;
+			write("");
 			break;
 		}
 	}
@@ -92,7 +93,8 @@ string Block::content()
 bool Block::write(string content)
 {
 	Block* pos = this;
-	content += (char)0;
+	while (content.size() < 1016) 
+		content += (char)0;
 
 	while (content.size() > 0) {
 		time(&pos->updateTime);
