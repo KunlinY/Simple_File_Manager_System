@@ -43,7 +43,6 @@ Root::Root(Root * parent, string name, long long time, int id) :
 {
 	if (id > 0) {
 		block = new Block(id, time);
-		//cout << block->content();
 	}
 	else
 		block = nullptr;
@@ -51,34 +50,12 @@ Root::Root(Root * parent, string name, long long time, int id) :
 	parent->childs[name] = this;
 }
 
-//	TODO
-//	接受命令行字符串
-//	最开始对象为this，之后操作对象为返回后的Root*
-//	ls	调用Root*->showChilds
-//	cd	绝对路径的话先把操作对象设置为私有变量中的root
-//		再循环调用visitFile
-//		相对路径直接循环调用visitFile
-//		支持../..、.等操作
-//	vi	是文件的话显示文件内容
-//		不是的话就报错
-//		接受用户输入并写入
-//	cp	第一个参数为源文件 第二个参数为目的文件
-//		支持cd中的所有路径表达格式
-//		调用bool copy()
-//	rm	删除文件 调用bool deleteFile
-//	mkdir	新建文件夹 createRoot
-//	touch	新建文件 createFile
-//	quit	return，回到Super界面
-//	以上都是while循环 操作失败要有对应失败信息
 void Root::run()
 {
 	Root * temp = this;
 	string action;
 	while (1)
 	{
-		// TODO
-		// 每个操作的地址访问都要可以接受绝对地址和间接地址
-		// 每次操作最好可以输出当前路径，像Linux一样
 		cin >> action;
 		if (action == "ls")
 			temp->showChilds();
@@ -87,8 +64,6 @@ void Root::run()
 			Root * test;
 			string route;
 			cin >> route;
-			// TODO
-			// 这个循环判断最好不要写死在这 另外写一个函数 方便其他功能调用
 
 			test = temp->findRoute(route);
 
@@ -104,11 +79,10 @@ void Root::run()
 			if (working == nullptr || !working->isFile())
 				continue;
 
-			content = working->read();
-			cout << content << endl;
-
 			while (1)
 			{
+				content = working->read();
+				cout << content << endl;
 				cout << "******************************\n"
 					<< "write: 1 + 'enter'\n"
 					<< "clear: 2 + 'enter'\n"
@@ -157,8 +131,20 @@ void Root::run()
 		}
 		else if (action == "cp")
 		{
-			string src, dest;
-			cin >> src >> dest;
+			Root * location, *dest;
+			string src, route;
+			cin >> src >> route;
+			location = temp->findRoute(route);
+			if (location == nullptr)
+				continue;
+			
+			
+			if ((dest = location->createFile(src.substr(src.find_last_of('\\') + 1))) == nullptr)
+				cout << "file construction error" << endl;
+			else
+				cout << "construction complete" << endl;
+			if (!copy(src, dest))
+				cout << "copy error" << endl;
 		}
 		else if (action == "rm")
 		{
@@ -185,10 +171,10 @@ void Root::run()
 			if (temp->createFile(file) == nullptr)
 				cout << "file construction error" << endl;
 			else
-				cout << "construction conplete" << endl;
+				cout << "construction complete" << endl;
 		}
 		else if (action == "stat") {
-
+			temp->showInfo();
 		}
 		else if (action == "quit")
 		{
@@ -384,6 +370,7 @@ Root * Root::findRoute(string route)
 Root * Root::DownToFile(string &route)
 {
 	Root * temp;
+	string file;
 	int pos = route.find('/');
 	if (pos == -1)
 	{
@@ -392,7 +379,8 @@ Root * Root::DownToFile(string &route)
 	}
 	else
 	{
-		temp = visitFile(route.substr(0, pos + 1));
+		file = route.substr(0, pos);
+		temp = visitFile(file);
 		route = route.substr(pos + 1, route.length() - pos - 1);
 	}
 	return temp;
@@ -406,7 +394,7 @@ Root * Root::findExcatRoute(string route)
 	route = route.substr(1, route.length() - 1);
 	while (!route.empty())
 	{
-		temp = DownToFile(route);
+		temp = temp->DownToFile(route);
 		if (temp == nullptr)
 		{
 			cout << "invalid input" << endl;
@@ -421,8 +409,6 @@ Root * Root::findRelativeRoute(string route)
 	Root * temp;
 	while (!route.empty())
 	{
-		// TODO
-		// cd .. ??
 		if (route.substr(0, 2) == "..")
 		{
 			temp = parent;
