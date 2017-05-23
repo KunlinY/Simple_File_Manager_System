@@ -43,7 +43,6 @@ Root::Root(Root * parent, string name, long long time, int id) :
 {
 	if (id > 0) {
 		block = new Block(id, time);
-		//cout << block->content();
 	}
 	else
 		block = nullptr;
@@ -51,25 +50,6 @@ Root::Root(Root * parent, string name, long long time, int id) :
 	parent->childs[name] = this;
 }
 
-//	TODO
-//	接受命令行字符串
-//	最开始对象为this，之后操作对象为返回后的Root*
-//	ls	调用Root*->showChilds
-//	cd	绝对路径的话先把操作对象设置为私有变量中的root
-//		再循环调用visitFile
-//		相对路径直接循环调用visitFile
-//		支持../..、.等操作
-//	vi	是文件的话显示文件内容
-//		不是的话就报错
-//		接受用户输入并写入
-//	cp	第一个参数为源文件 第二个参数为目的文件
-//		支持cd中的所有路径表达格式
-//		调用bool copy()
-//	rm	删除文件 调用bool deleteFile
-//	mkdir	新建文件夹 createRoot
-//	touch	新建文件 createFile
-//	quit	return，回到Super界面
-//	以上都是while循环 操作失败要有对应失败信息
 void Root::run()
 {
 	Root * temp = this;
@@ -99,8 +79,6 @@ void Root::run()
 			if (working == nullptr || !working->isFile())
 				continue;
 
-			
-
 			while (1)
 			{
 				content = working->read();
@@ -127,7 +105,7 @@ void Root::run()
 					else
 						cout << "writing error" << endl;
 
-					cout << "new version：\n" << content << endl;
+					cout << "new version锛歕n" << content << endl;
 				}
 				else if (instruction == "2")
 				{
@@ -451,5 +429,4 @@ Root * Root::findRelativeRoute(string route)
 	}
 	return temp;
 }
-
 
