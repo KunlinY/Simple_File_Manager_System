@@ -34,7 +34,11 @@ Super::Super(bool flag)
 
 		while (root->getName() != parent) {
 			if (root->visitParent() == root) {
-				flag = true;
+				if (root->getName() != parent)
+					root = users[parent];
+				else 
+					flag = true;
+				
 				break;
 			}
 			root = root->visitParent();
@@ -69,20 +73,8 @@ Super::~Super()
 	Block::save(user, record);
 }
 
-//	TODO
-//	接受用户的操作
-//	接受控制台的输入string类型的用户名 无空格
-//	根据用户的操作调用下列三个函数
-//	分别是创建新用户 删除用户 登录用户
-//create name
-//delete name
-//log name
-//	最终一定要登录用户
-//	while循环
 void Super::boot()
 {
-	// TODO
-	// 输出命令提示信息
 	while (1)
 	{
 		cout << "******************************\n"
@@ -131,7 +123,6 @@ void Super::boot()
 	}
 }
 
-
 bool Super::createUser(string name)
 {
 	if (users.find(name) == users.end()) {
@@ -143,7 +134,6 @@ bool Super::createUser(string name)
 		return false;
 	}
 }
-
 
 bool Super::deleteUser(string name)
 {
@@ -158,7 +148,6 @@ bool Super::deleteUser(string name)
 	}
 }
 
-
 bool Super::logUser(string name)
 {
 	if (users.find(name) != users.end()) {
@@ -170,11 +159,6 @@ bool Super::logUser(string name)
 	}
 }
 
-
-//	TODO
-//	展现所有类常量信息 一行显示一个
-//	列出所有用户名字以及所有用户的所占空间大小
-//	接口函数showSize()
 void Super::showInfo()
 {
 	map<string, Root*>::iterator it;
