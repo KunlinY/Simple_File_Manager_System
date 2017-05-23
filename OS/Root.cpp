@@ -105,7 +105,7 @@ void Root::run()
 					else
 						cout << "writing error" << endl;
 
-					cout << "new version£º\n" << content << endl;
+					cout << "new versionï¼š\n" << content << endl;
 				}
 				else if (instruction == "2")
 				{
@@ -429,5 +429,4 @@ Root * Root::findRelativeRoute(string route)
 	}
 	return temp;
 }
-
 
