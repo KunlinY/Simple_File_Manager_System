@@ -8,7 +8,7 @@ Root::Root(string name) :
 	root(this),
 	block(nullptr)	
 {
-	time(&createTime);
+	time(&createTime); 
 }
 
 Root::~Root()
