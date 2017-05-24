@@ -39,7 +39,8 @@ Root::Root(Root * parent, string name, bool flag) :
 Root::Root(Root * parent, string name, long long time, int id) :
 	name(name),
 	parent(parent),
-	createTime(time)
+	createTime(time),
+	root(parent->root)
 {
 	if (id > 0) {
 		block = new Block(id, time);
