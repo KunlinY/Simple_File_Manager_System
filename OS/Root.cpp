@@ -8,7 +8,7 @@ Root::Root(string name) :
 	root(this),
 	block(nullptr)	
 {
-	time(&createTime);
+	time(&createTime); 
 }
 
 Root::~Root()
@@ -106,7 +106,7 @@ void Root::run()
 					else
 						cout << "writing error" << endl;
 
-					cout << "new version：\n" << content << endl;
+					cout << "new version" <<  endl;
 				}
 				else if (instruction == "2")
 				{
@@ -115,7 +115,10 @@ void Root::run()
 					cin >> flag;
 					if (flag == 'y')
 						if (working->write(""))
+						{
 							cout << "clear complete" << endl;
+							content = "";
+						}
 						else
 							cout << "clear error" << endl;
 				}
